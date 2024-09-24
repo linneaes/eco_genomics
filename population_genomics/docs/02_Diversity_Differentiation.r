@@ -50,3 +50,32 @@ manhattan(vcf.div.MHplot,
           logp=F,
           ylab="Fst among regions",
           suggestiveline = quantile(vcf.div.MHplot$Gst, 0.999))
+
+write.csv(vcf.div.MHplot, "~/projects/eco_genomics/population_genomics/outputs/Genetic_Diff_byRegion.csv",
+          quote=F,
+          row.names=F)
+
+names(vcf.div.MHplot)#gives column names, Hs values = columns 4-9
+
+#helps with plotting errors on RStudio on VACC
+options(bitmapType = "cairo")
+
+#make into long format and plot
+vcf.div.MHplot %>% 
+  as_tibble() %>%
+  pivot_longer(c(4:9)) %>%
+  ggplot(aes(x=value, fill=name)) +
+  geom_histogram(position = "identity", alpha=0.5, bins=50) +
+  labs(title="Genome-wide expected heterozygosity (Hs)", fill="Regions",
+       x="Gene diversity within Regions", y= "Counts of SNPs")
+
+#ggsave saves last plot
+ggsave("Histogram_GenomeDiversity_byRegion.pdf",
+       path="~/projects/eco_genomics/population_genomics/figures/")
+
+vcf.div.MHplot %>% 
+  as_tibble() %>%
+  pivot_longer(c(4:9)) %>%
+  group_by(name) %>%
+  filter(value!=0 & value<0.25) %>%
+  summarise(avg_Hs = mean(value),StdDev_Hs = sd(value), N_Hs = n())

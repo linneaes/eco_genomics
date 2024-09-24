@@ -80,3 +80,15 @@ left_join joins 2 data frames
 vcf.div.MHplot$V2 = as.numeric(vcf.div.MHplot$V2) makes the variable into its number version
 suggestiveline = shows a cutoff line at a certain quantile of the data
 ```
+
+### 09-24 Diversity Differentiation Cont.
+
+Outliers on the Manhattan plot may be genes of interest potentially due to selection.
+
+tidy operations use %\>% as a pipe for results into the next step
+
+!= does not equal
+
+& combines things (ex. filter(value!=0 & value \<0.25)
+
+We created a long format of the Regions and then processed them into a histogram using ggplot to show Hs values. The graph shows how many SNPs are counted at a value of Hs, and the high number of 0s suggests no polymorphism at that site (only one allele present across all the samples)
