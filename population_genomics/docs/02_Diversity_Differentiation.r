@@ -79,3 +79,4 @@ vcf.div.MHplot %>%
   group_by(name) %>%
   filter(value!=0 & value<0.25) %>%
   summarise(avg_Hs = mean(value),StdDev_Hs = sd(value), N_Hs = n())
+
