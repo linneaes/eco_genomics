@@ -32,7 +32,27 @@ geno <- vcf2geno(input.file = "/gpfs1/home/l/e/lericsso/vcf_final.filtered.thinn
 
 CentPCA <- LEA::pca("outputs/vcf_final.filtered.thinned.geno", scale=TRUE)
 
-plot(CentPCA$projections, 
-     col=as.factor(meta2$region))
-legend("bottomright", legend=as.factor(unique(meta2$region)), 
-                                       fill=as.factor(unique(meta2$region)))
+#You can load in the PCA results if you've done it previously
+CentPCA <-load.pcaProject("vcf_final.filtered.thinned.pcaProject")
+
+show(CentPCA)
+
+plot(CentPCA)
+
+#plot(CentPCA$projections, 
+     #col=as.factor(meta2$region))
+#legend("bottomright", legend=as.factor(unique(meta2$region)), 
+                                       #fill=as.factor(unique(meta2$region)))
+
+ggplot(as.data.frame(CentPCA$projections),
+       aes(x=V1, y=V2, color=meta2$region, shape=meta2$continent))+
+       geom_point(alpha=0.5) +
+  labs(title="Centaurea genetic PCA",x="PC1", y="PC2", color="Region", shape="Continent")
+
+ggsave("figures/CentPCA_PC1vPC2.pdf", width=6, height=6, units="in")
+
+#PC2 v PC3
+ggplot(as.data.frame(CentPCA$projections),
+       aes(x=V2, y=V3, color=meta2$region, shape=meta2$continent))+
+  geom_point(alpha=0.5) +
+  labs(title="Centaurea genetic PCA",x="PC2", y="PC3", color="Region", shape="Continent")

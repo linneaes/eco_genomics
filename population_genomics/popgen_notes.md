@@ -92,3 +92,13 @@ tidy operations use %\>% as a pipe for results into the next step
 & combines things (ex. filter(value!=0 & value \<0.25)
 
 We created a long format of the Regions and then processed them into a histogram using ggplot to show Hs values. The graph shows how many SNPs are counted at a value of Hs, and the high number of 0s suggests no polymorphism at that site (only one allele present across all the samples)
+
+### 09-26 PCA and Admixture
+
+We continued our PCA analysis of the Centauria data, after we thinned the data.
+
+A screeplot shows the magnitude of the eigenvalues in descending order, starting with the first PC value. We only want the first few PC values, which sum up most of the genetic variation
+
+show() gives you an overview of your data
+
+options(bitmapType = "cairo") helps when the plot doesn't work
