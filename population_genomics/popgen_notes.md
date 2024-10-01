@@ -102,3 +102,23 @@ A screeplot shows the magnitude of the eigenvalues in descending order, starting
 show() gives you an overview of your data
 
 options(bitmapType = "cairo") helps when the plot doesn't work
+
+### 10-1-2024 Admixture and Selection
+
+We ran and plotted an admixture structure analysis of the Centaurea data to compare the fraction of ancestral DNA in individuals across different regions. We first compared the cross entropy values for different values of K to find one that best modeled our dataset, and then set that K value for our admixture to see the comparisons at that clustering.
+
+After the selection lecture, we also modeled calculable selection outliers in R, looking at pvalues for PCAdapts on different chromosomes in a Manhattan plot.
+
+entropy =T crossvalidates the K values
+
+repetitions repeats the analysis a given number of times at a given value of K
+
+par(mfrow= c(2,1)) stacks two plots so you can compare them
+
+have to turn it off with dev.off()
+
+Q scores here = fractional ancestral comparison for individuals
+
+cbind pastes columns from two datasets next to eachother
+
+min.maf is the minimum minor allele frequency

@@ -18,7 +18,7 @@ meta <- read.csv("/gpfs1/cl/pbio3990/PopulationGenomics/metadata/meta4vcf.csv")
 
 dim(meta)
 
-meta2 <- meta[meta$id %in% colnames(vcf.thin@gt[, -1]),]
+meta2 <- meta[meta$id %in% colnames(vcf@gt[, -1]),]
 
 dim(meta2)
 
@@ -56,3 +56,50 @@ ggplot(as.data.frame(CentPCA$projections),
        aes(x=V2, y=V3, color=meta2$region, shape=meta2$continent))+
   geom_point(alpha=0.5) +
   labs(title="Centaurea genetic PCA",x="PC2", y="PC3", color="Region", shape="Continent")
+
+# Now we will run admixture analyses and create plots
+# For Admixture, we're going to use the LEA R package
+# The function inside LEA is called "snmf"
+
+CentAdmix <- snmf("outputs/vcf_final.filtered.thinned.geno", 
+                  K=1:10,
+                  entropy=T,
+                  repetitions=3,
+                  project="new") #if you're adding to this analysis later, you could choose project="continue"
+
+par(mfrow= c(2,1))
+plot(CentAdmix, col="blue4", main="SNMF") #this plots the cross-entropy score we can use for selecting models with K values that fit our data well
+plot(CentPCA$eigenvalues[1:10], ylab="Eigenvalues", xlab= "number of PCs", col="blue4", main="PCA")
+dev.off()
+
+myK=5
+
+CE = cross.entropy(CentAdmix, K=myK)
+best = which.min(CE)
+
+myKQ = Q(CentAdmix, K=myK, run=best)
+
+#stitch together with metadata
+myKQmeta = cbind(myKQ, meta2)
+
+my.colors = c("blue4", "goldenrod","tomato", "lightblue", "olivedrab")
+
+myKQmeta = as_tibble(myKQmeta) %>%
+  group_by(continent) %>%
+  arrange(region, pop, .by_group = TRUE)
+
+pdf("figures/Admixture_K4.pdf", width=10, height=5)
+barplot(as.matrix(t(myKQmeta[ , 1:myK])), 
+        border=NA,
+        space=0,
+        col=my.colors[1:myK],
+        xlab= "Geographic regions",
+        ylab= "Ancestry proportions",
+        main= paste0("Ancestry matrix K=",myK))
+axis(1,
+     at=1:length(myKQmeta$region),
+     labels=myKQmeta$region,
+     tick=F,
+     cex.axis=0.5,
+     las=3)
+dev.off()
