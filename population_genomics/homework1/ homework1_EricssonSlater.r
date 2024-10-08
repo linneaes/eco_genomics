@@ -72,10 +72,10 @@ DP2 <- extract.gt(vcf.filt.indSNPMiss,
            #rlabels=F, clabels=F)
 
 write.vcf(vcf.filt.indSNPMiss,
-          "~/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered_0.90missingness.vcf.gz")
+          "~/projects/eco_genomics/population_genomics/homework1/vcf_final.filtered_0.50missingness.vcf.gz")
 
 #pt2
-vcf<- read.vcfR("~/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered_0.5missingness.vcf.gz")
+vcf<- read.vcfR("~/projects/eco_genomics/population_genomics/homework1/vcf_final.filtered_0.50missingness.vcf.gz")
 
 meta <- read.csv("/gpfs1/cl/pbio3990/PopulationGenomics/metadata/meta4vcf.csv")
 
@@ -108,7 +108,7 @@ manhattan(vcf.div.MHplot,
           ylab="Fst among regions",
           suggestiveline = quantile(vcf.div.MHplot$Gst, 0.999))
 
-write.csv(vcf.div.MHplot, "~/projects/eco_genomics/population_genomics/outputs/Genetic_Diff_byRegion_hw1.csv",
+write.csv(vcf.div.MHplot, "~/projects/eco_genomics/population_genomics/homework1/Genetic_Diff_byRegion_0.50missingness_hw1.csv",
           quote=F,
           row.names=F)
 
@@ -122,9 +122,10 @@ vcf.div.MHplot %>%
        x="Gene diversity within Regions", y= "Counts of SNPs")
 
 #ggsave saves last plot
-ggsave("Histogram_GenomeDiversity_byRegion_hw1.pdf",
-       path="~/projects/eco_genomics/population_genomics/figures/")
+ggsave("Histogram_GenomeDiversity_byRegion_0.50missingness_hw1.pdf",
+       path="~/projects/eco_genomics/population_genomics/homework1/")
 
+#genome wide diversity, Hs, and StdDev
 vcf.div.MHplot %>% 
   as_tibble() %>%
   pivot_longer(c(4:9)) %>%
@@ -142,15 +143,15 @@ meta <- read.csv("/gpfs1/cl/pbio3990/PopulationGenomics/metadata/meta4vcf.csv")
 
 meta2 <- meta[meta$id %in% colnames(vcf@gt[, -1]),]
 
-write.vcf(vcf.thin, "outputs/homework1/vcf_final.filtered.thinned_hw1.vcf.gz")
+write.vcf(vcf.thin, "~/projects/eco_genomics/population_genomics/homework1/vcf_final.filtered.thinned_0.50missingness.vcf.gz")
 
 #hide the uncompressed vcf file too big for github outside of our repo
-system("gunzip -c ~/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered.thinned_hw1.vcf.gz > ~/vcf_final.filtered.thinned_hw1.vcf")
+system("gunzip -c ~/projects/eco_genomics/population_genomics/homework1/vcf_final.filtered.thinned_0.50missingness.vcf.gz > ~/vcf_final.filtered.thinned_0.50missingness.vcf")
 
-geno <- vcf2geno(input.file = "/gpfs1/home/l/e/lericsso/vcf_final.filtered.thinned_hw1.vcf",
-                 output.file = "outputs/homework1/vcf_final.filtered.thinned_hw1.geno")
+geno <- vcf2geno(input.file = "/gpfs1/home/l/e/lericsso/vcf_final.filtered.thinned_0.50missingness.vcf",
+                 output.file = "homework1/vcf_final.filtered.thinned_0.50missingness.geno")
 
-CentPCA <- LEA::pca("outputs/vcf_final.filtered.thinned_hw1.geno", scale=TRUE)
+CentPCA <- LEA::pca("homwork1/vcf_final.filtered.thinned_0.50missingness.geno", scale=TRUE)
 
 ggplot(as.data.frame(CentPCA$projections),
        aes(x=V1, y=V2, color=meta2$region, shape=meta2$continent))+
