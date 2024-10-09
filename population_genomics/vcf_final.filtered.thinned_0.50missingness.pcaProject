@@ -1,0 +1,9 @@
+new("pcaProject", projDir = "/gpfs1/home/l/e/lericsso/projects/eco_genomics/population_genomics/homework1/", 
+    pcaDir = "vcf_final.filtered.thinned_0.50missingness.pca/", 
+    n = 459L, L = 3944L, K = 459L, center = TRUE, scale = TRUE, 
+    pcaProject.file = "vcf_final.filtered.thinned_0.50missingness.pcaProject", 
+    input.file = "vcf_final.filtered.thinned_0.50missingness.lfmm", 
+    eigenvalue.file = "vcf_final.filtered.thinned_0.50missingness.eigenvalues", 
+    eigenvector.file = "vcf_final.filtered.thinned_0.50missingness.eigenvectors", 
+    sdev.file = "vcf_final.filtered.thinned_0.50missingness.sdev", 
+    projection.file = "vcf_final.filtered.thinned_0.50missingness.projections")

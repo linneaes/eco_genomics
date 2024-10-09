@@ -151,11 +151,16 @@ system("gunzip -c ~/projects/eco_genomics/population_genomics/homework1/vcf_fina
 geno <- vcf2geno(input.file = "/gpfs1/home/l/e/lericsso/vcf_final.filtered.thinned_0.50missingness.vcf",
                  output.file = "homework1/vcf_final.filtered.thinned_0.50missingness.geno")
 
-CentPCA <- LEA::pca("homwork1/vcf_final.filtered.thinned_0.50missingness.geno", scale=TRUE)
+CentPCA <- LEA::pca("homework1/vcf_final.filtered.thinned_0.50missingness.geno", scale=TRUE)
+
+plot(CentPCA$projections, 
+     col=as.factor(meta2$region))
+legend("bottomright", legend=as.factor(unique(meta2$region)), 
+       fill=as.factor(unique(meta2$region)))
 
 ggplot(as.data.frame(CentPCA$projections),
        aes(x=V1, y=V2, color=meta2$region, shape=meta2$continent))+
   geom_point(alpha=0.5) +
-  labs(title="Centaurea genetic PCA",x="PC1", y="PC2", color="Region", shape="Continent")
+  labs(title="Centaurea genetic PCA 0.50 missingness",x="PC1", y="PC2", color="Region", shape="Continent")
 
 ggsave("outputs/homework1/CentPCA_PC1vPC2_hw1.pdf", width=6, height=6, units="in")
