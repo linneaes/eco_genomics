@@ -49,6 +49,7 @@ vcf.filt <- max_depth(vcf.filt, maxdepth = 60)#filter out genotypes with >60 rea
 meta <- read.csv("metadata/meta4vcf.csv", header=T)
 
 meta2 <- meta[,c(1,4)]
+dim(meta2)
 
 names(meta2) <- c("id","pop")
 meta2$id= as.factor(meta2$id)
@@ -153,6 +154,8 @@ geno <- vcf2geno(input.file = "/gpfs1/home/l/e/lericsso/vcf_final.filtered.thinn
 
 CentPCA <- LEA::pca("homework1/vcf_final.filtered.thinned_0.50missingness.geno", scale=TRUE)
 
+show(CentPCA)
+
 plot(CentPCA$projections, 
      col=as.factor(meta2$region))
 legend("bottomright", legend=as.factor(unique(meta2$region)), 
@@ -163,4 +166,49 @@ ggplot(as.data.frame(CentPCA$projections),
   geom_point(alpha=0.5) +
   labs(title="Centaurea genetic PCA 0.50 missingness",x="PC1", y="PC2", color="Region", shape="Continent")
 
-ggsave("outputs/homework1/CentPCA_PC1vPC2_hw1.pdf", width=6, height=6, units="in")
+ggsave("/homework1/CentPCA_PC1vPC2_hw1.pdf", width=6, height=6, units="in")
+
+
+CentAdmix <- snmf("~/projects/eco_genomics/population_genomics/homework1/vcf_final.filtered.thinned_0.50missingness.geno", 
+                  K=1:10,
+                  entropy=T,
+                  repetitions=3,
+                  project="new") #if you're adding to this analysis later, you could choose project="continue"
+
+par(mfrow= c(2,1))
+plot(CentAdmix, col="blue4", main="SNMF") #this plots the cross-entropy score we can use for selecting models with K values that fit our data well
+plot(CentPCA$eigenvalues[1:10], ylab="Eigenvalues", xlab= "number of PCs", col="blue4", main="PCA")
+dev.off()
+
+myK=5
+
+CE = cross.entropy(CentAdmix, K=myK)
+best = which.min(CE)
+
+myKQ = Q(CentAdmix, K=myK, run=best)
+
+#stitch together with metadata
+myKQmeta = cbind(myKQ, meta2)
+
+my.colors = c("blue4", "goldenrod","tomato", "lightblue", "olivedrab")
+
+myKQmeta = as_tibble(myKQmeta) %>%
+  group_by(continent) %>%
+  arrange(region, pop, .by_group = TRUE)
+
+pdf("~/projects/eco_genomics/population_genomics/homework1/Admixture_K5_0.50missingness.pdf", width=10, height=5)
+barplot(as.matrix(t(myKQmeta[ , 1:myK])), 
+        border=NA,
+        space=0,
+        col=my.colors[1:myK],
+        xlab= "Geographic regions",
+        ylab= "Ancestry proportions",
+        main= paste0("Ancestry matrix K=",myK))
+axis(1,
+     at=1:length(myKQmeta$region),
+     labels=myKQmeta$region,
+     tick=F,
+     cex.axis=0.5,
+     las=3)
+dev.off()
+
