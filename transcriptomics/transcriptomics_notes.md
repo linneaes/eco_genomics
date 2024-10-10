@@ -9,3 +9,25 @@ Developmental plasticity: same genes, different environment -\> different phenot
 Experimental Questions: How do animals acclimate?: Physiological mechanisms of developmental plasticity: 1. Does the temp that they experience growing up effect UGT?, 2. How does gene expression response differ btwn temps? 3. What genes are expressed during development?
 
 Factors: Development (levels = 18 degrees and 22 degrees C) and Final Temperature (levels = Control, 28, and 33 degrees C)
+
+## 10-10-2024 DESeq2
+
+We analyzed the Copepod data using DESeq and plotted the variation between treatments on a PCA plot.
+
+Overdispersion = where variance \> mean -\> negative binomial distribution takes this into account
+
+Gene Expression: explanatory variables = treatment conditions (DevTemp and FinalTemp)
+
+colSums sums up all the columns, rowSums sums the rows
+
+cex.names = size of the names
+
+las = orientation of names
+
+abline(h=mean(colSums(countsTableRound)), col="blue4", lwd=2) : adds a line on the barplot, h says where, lwd is the line width
+
+nrow() number of rows
+
+command - (shortcut to \<-)
+
+command shift c (comments out a line)

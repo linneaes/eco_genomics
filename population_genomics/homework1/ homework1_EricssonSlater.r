@@ -143,13 +143,16 @@ meta <- read.csv("/gpfs1/cl/pbio3990/PopulationGenomics/metadata/meta4vcf.csv")
 
 meta2 <- meta[meta$id %in% colnames(vcf@gt[, -1]),]
 
+setwd("/gpfs1/home/l/e/lericsso/projects/eco_genomics/")
+
 write.vcf(vcf.thin, "~/projects/eco_genomics/population_genomics/homework1/vcf_final.filtered.thinned_0.90missingness.vcf.gz")
 
 #hide the uncompressed vcf file too big for github outside of our repo
 system("gunzip -c ~/projects/eco_genomics/population_genomics/homework1/vcf_final.filtered.thinned_0.90missingness.vcf.gz > ~/vcf_final.filtered.thinned_0.90missingness.vcf")
 
-geno <- vcf2geno(input.file = "~/vcf_final.filtered.thinned_0.90missingness.vcf",
-                 output.file = "homework1/vcf_final.filtered.thinned_0.90missingness.geno")
+
+geno <- vcf2geno(input.file = "/gpfs1/home/l/e/lericsso/vcf_final.filtered.thinned_0.90missingness.vcf",
+                 output.file = "/homework1/vcf_final.filtered.thinned_0.90missingness.geno")
 
 CentPCA <- LEA::pca("homework1/vcf_final.filtered.thinned_0.90missingness.geno", scale=TRUE)
 
