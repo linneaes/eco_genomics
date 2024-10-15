@@ -31,3 +31,15 @@ nrow() number of rows
 command - (shortcut to \<-)
 
 command shift c (comments out a line)
+
+## 10-15 Transcriptomics
+
+We loaded in our day 1 script and data and then ordered it by significance. Then we looked at counts for a specific gene and compared the gene expression from the two developmental temperatures (18 and 22) in a plot.
+
+We then made an MA plot to compare log fold change of differential gene expression vs. avg. gene expression. The very far right of the graph represents constitutely expressed/housekeeping genes that are always on. We see the expression of overdiversion, with a lot more variability than expected
+
+We then made a volcano plot and saw more significance in upregulated genes in D22 (which is also the downregulated genes in D18). There had to be at least a doubling of expression to be considered significant.
+
+We then made a heatmap to visualize the comparison of expression for different developmental and final temperatures. Each column is a sample, each row is a gene, and the color refers to magnitude of expression. We see some genes with high contrast in expression across samples, and a few genes that are significantly lowly expressed in the D18 individuals. The intensity of expression varies in the genes that all show up with the same color.
+
+log2FoldChange = measure of difference in gene expression in units of doublings (instead of x10 in log10)
