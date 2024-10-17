@@ -43,3 +43,17 @@ We then made a volcano plot and saw more significance in upregulated genes in D2
 We then made a heatmap to visualize the comparison of expression for different developmental and final temperatures. Each column is a sample, each row is a gene, and the color refers to magnitude of expression. We see some genes with high contrast in expression across samples, and a few genes that are significantly lowly expressed in the D18 individuals. The intensity of expression varies in the genes that all show up with the same color.
 
 log2FoldChange = measure of difference in gene expression in units of doublings (instead of x10 in log10)
+
+## 10-17 Differentially Expressed Genes
+
+Factors= DevTemp (D18 and D22) and Final Temp (Base, A28, and A33)
+
+We combined the treatments into one variable called group, which had separate levels based on devTemp and FinalTemp. We're comparing gene expression between groups and within groups.
+
+We started by looking at the counts of differentially expressed genes in each group at the baseline, then at A28 and A33. We did not find a large difference in the number of genes that were upregulated or downregulated.
+
+We see a much larger number of differentially expressed genes at baseline, then less when exposed to 28, and even less at 33. The higher the acute exposure, the lower the difference between gene expression
+
+We looked at overlap between differential gene expression at different acute temps vs the baseline. We found 23 differentially expressed genes overlapping between all 3 temps
+
+ctrl F and select a region to replace words
