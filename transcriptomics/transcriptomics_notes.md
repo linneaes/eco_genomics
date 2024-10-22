@@ -57,3 +57,9 @@ We see a much larger number of differentially expressed genes at baseline, then 
 We looked at overlap between differential gene expression at different acute temps vs the baseline. We found 23 differentially expressed genes overlapping between all 3 temps
 
 ctrl F and select a region to replace words
+
+## 10-22 Euler plots, Scatter plots, and WGCNA
+
+We finished creating euler plots for the data to compare the overlap of differentially expressed genes between treatment groups (BASE, A28, A33).
+
+We then created scatter plots of responses from different devTemps when exposed to A28 and A33. We contrasted the baseline treatment and A28 for the devtemp 18 group, and then merged the two dataframes. We saw a huge upregulation when exposed to 28 with the baseline at 22, and a downregulation from 18.
