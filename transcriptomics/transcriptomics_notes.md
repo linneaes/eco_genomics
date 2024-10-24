@@ -63,3 +63,11 @@ ctrl F and select a region to replace words
 We finished creating euler plots for the data to compare the overlap of differentially expressed genes between treatment groups (BASE, A28, A33).
 
 We then created scatter plots of responses from different devTemps when exposed to A28 and A33. We contrasted the baseline treatment and A28 for the devtemp 18 group, and then merged the two dataframes. We saw a huge upregulation when exposed to 28 with the baseline at 22, and a downregulation from 18.
+
+## 10-24
+
+We finished the scatter plot for responses to A33 exposure and then placed the two plots together in a figure. This lets us compare all the differentially expressed genes at A28 vs A33. Many more genes were differentially expressed in A33, and there was more downregulation of the DevTemp 18 genes at A33. We also saw a large upregulation in genes at 22.
+
+We then looked at WGCNA:
+
+We looked at the good genes on a dendrogram and in a PCA plot to see the outliers in the 7 genes. There is one very strong outlier identified with both methods, but they are left in because they are within the expected variation. We then moved on to normalization, and then to network construction, where we looked at the scale free topology of the genes and their connectivity to other genes. We can use the plots that we made to choose what power will work well for our data (we chose about 24 because it just clears the 0.8 threshold and is slightly above the lowest connectivity value).

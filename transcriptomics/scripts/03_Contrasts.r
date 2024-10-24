@@ -89,6 +89,7 @@ res_D22_BASEvsA28 <- as.data.frame(results(dds, contrast= c("group", "D22BASE", 
 
 # merge dataframes
 res_df28 <- merge(res_D18_BASEvsA28, res_D22_BASEvsA28, by = "row.names", suffixes = c(".18", ".22"))
+
 rownames(res_df28) <- res_df28$Row.names
 res_df28 <- res_df28[ , -1] #get rid of first column
 
@@ -119,18 +120,24 @@ label_positions <- data.frame(
 label_data <- merge(color_counts, label_positions, by = "fill")
 
 # Plot
-ggplot(res_df28, aes(x= log2FoldChange.18, y= log2FoldChange.22, color = fill)) +
+plot28 <- ggplot(res_df28, aes(x= log2FoldChange.18, y= log2FoldChange.22, color = fill)) +
   geom_point(alpha = 0.8) +
   scale_color_identity() +
   geom_text(data = label_data, aes(x = x_position, y = y_position, label = count, color = fill),
             size = 5) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "black") +
+  geom_abline(intercept = 0, slope = -1, linetype = "dashed", color = "grey") +
+  xlim(-10, 10) + ylim(-10, 10) +
   labs(x = "Log2FoldChange 28 vs BASE at 18", 
        y = "Log2FoldChange 28 vs BASE at 22",
        title = "How does response to 28 C vary by DevTemp?") +
   theme_minimal()
 
+plot28
 
 
+#################################################################################
+# repeat for A33
 
 # contrast D18_A33vsBASE
 res_D18_BASEvsA33 <- as.data.frame(results(dds, contrast= c("group", "D18BASE", "D18A33"), alpha=0.05))
@@ -143,8 +150,6 @@ res_df33 <- merge(res_D18_BASEvsA33, res_D22_BASEvsA33, by = "row.names", suffix
 rownames(res_df33) <- res_df33$Row.names
 res_df33 <- res_df33[ , -1] #get rid of first column
 
-library(dplyr)
-library(tidyr)
 
 # Define color mapping logic with the mutate function
 
@@ -156,12 +161,40 @@ res_df33 <- res_df33 %>%
     padj.22 < 0.05 & stat.22 > 0 ~ "red3"
   ))
 
+# Count the number of points per fill color
+color_counts <- res_df33 %>%
+  group_by(fill) %>%
+  summarise(count = n())
+
+label_positions <- data.frame(
+  fill = c("blue2", "magenta1", "red3", "turquoise2"),
+  x_position = c(1, 5, 0, -7.5),
+  y_position = c(-5, 0, 9, 3)
+)
+
+label_data <- merge(color_counts, label_positions, by = "fill")
+
 # Plot
-ggplot(res_df33, aes(x= log2FoldChange.18, y= log2FoldChange.22, color = fill)) +
+plot33 <- ggplot(res_df33, aes(x= log2FoldChange.18, y= log2FoldChange.22, color = fill)) +
   geom_point(alpha = 0.8) +
   scale_color_identity() +
+  geom_text(data = label_data, aes(x = x_position, y = y_position, label = count, color = fill),
+            size = 5) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "black") +
+  geom_abline(intercept = 0, slope = -1, linetype = "dashed", color = "grey") +
+  xlim(-10, 10) + ylim(-10, 10) +
   labs(x = "Log2FoldChange 33 vs BASE at 18", 
        y = "Log2FoldChange 33 vs BASE at 22",
        title = "How does response to 33 C vary by DevTemp?") +
   theme_minimal()
 
+plot33
+
+
+# Put the two plots together in a two panel plot
+
+library(gridExtra)
+
+combined_plot <- grid.arrange(plot28, plot33, ncol = 2)
+
+ggsave("~/projects/eco_genomics/transcriptomics/figures/combined_scatter_plot.png", combined_plot, width = 12, height = 6)
