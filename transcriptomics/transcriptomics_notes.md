@@ -70,4 +70,8 @@ We finished the scatter plot for responses to A33 exposure and then placed the t
 
 We then looked at WGCNA:
 
-We looked at the good genes on a dendrogram and in a PCA plot to see the outliers in the 7 genes. There is one very strong outlier identified with both methods, but they are left in because they are within the expected variation. We then moved on to normalization, and then to network construction, where we looked at the scale free topology of the genes and their connectivity to other genes. We can use the plots that we made to choose what power will work well for our data (we chose about 24 because it just clears the 0.8 threshold and is slightly above the lowest connectivity value).
+We looked at the good genes on a dendrogram and in a PCA plot to see the outliers in the 7 genes. There is one very strong outlier identified with both methods, but they are left in because they are within the expected variation. We then moved on to normalization, and then to network construction, where we looked at the scale free topology of the genes and their connectivity to other genes. We can use the plots that we made to choose what power will work well for our data (we chose about 26 because it just clears the 0.8 threshold and is slightly above the lowest connectivity value).
+
+## 10-29-24 WGCNA continued
+
+Power is how well topology of the the network represents something biological. "Scale free topology" - in a network you can have regions that are super connected with each other and some that are less tightly connected. Power = weakness of the correlation between genes -\> we used the plots to see which power represented the scale free top. model well and didn't let connectivity get too low

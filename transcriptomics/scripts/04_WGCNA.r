@@ -31,6 +31,7 @@ traitData = read.table("/gpfs1/cl/pbio3990/Trait_Data.txt", header = TRUE, row.n
 # Filter the matrix to just BASE data (because those are the data for which we have traits measured)
 filtered_count_matrix_BASEonly <- countsTable[, conds$FinalTemp == "BASE"]
 filtered_sample_metadata_BASEonly <- conds[conds$FinalTemp == "BASE", ]
+
 rounded_filtered_count_matrix <- round(filtered_count_matrix_BASEonly)
 
 
@@ -115,3 +116,78 @@ a2 <- ggplot(sft.data, aes(Power, mean.k., label = Power))+
   theme_classic()
 
 grid.arrange(a1, a2, nrow = 2)
+
+
+
+# power = 26
+soft_power <- 26
+temp_cor <- cor
+cor <- WGCNA::cor # this sets the temp_cor function to use WGCNA's correlation function
+
+norm.counts[] <- sapply(norm.counts, as.numeric)
+
+# the command below creates the network and identifies modules based on the parameters that we chose
+bwnet26 <- blockwiseModules(norm.counts, 
+                            maxBlockSize = 30000,
+                            TOMType = "signed",
+                            power = soft_power,
+                            mergeCutHeight = 0.25,
+                            numericLabels = FALSE,
+                            randomSeed = 1234, 
+                            verbose = 3)
+
+saveRDS(bwnet26, file = "bwnet26.rds")
+
+# to load the bwnet file in later use:
+#bwnet26 <- readRDS("outputs/bwnet26.rds")
+
+cor <- temp_cor # this resets the cor function to base R's cor function instead of using WGCNA's cor function
+
+
+# STEP 5: Explore Module Eigengenes
+
+module_eigengenes <- bwnet26$MEs
+
+head(module_eigengenes)
+dim(module_eigengenes)
+
+# get the number of genes for each module
+table(bwnet26$colors)
+
+# Plot the Dendrogram and the module colors
+
+plotDendroAndColors(bwnet26$dendrograms[[1]], cbind(bwnet26$unmergedColors, bwnet26$colors),
+                    c("unmerged","merged"),
+                    dendroLabels = FALSE,
+                    addGuide=TRUE,
+                    hang = 0.03,
+                    guideHang = 0.05)
+
+
+# STEP 6: Correlation of modules with traits!
+
+# Define the number of genes and samples
+nSamples <- nrow(norm.counts)
+nGenes <- ncol(norm.counts)
+
+# test for a correlation between module eigengenes and trait data
+module.trait.corr <- cor(module_eigengenes, traitData, use = 'p')
+
+# Calculate p values for each correlation
+module.trait.corr.pvals <- corPvalueStudent(module.trait.corr, nSamples)
+
+# Visualize module trait association as a heatmap
+heatmap.data <- merge(module_eigengenes, traitData, by = 'row.names')
+head(heatmap.data)
+
+# address error of row.names not being numeric
+heatmap.data <- heatmap.data %>%
+  column_to_rownames(var = 'Row.names')
+
+names(heatmap.data)
+
+# Make pretty heatmap of correlations
+CorLevelPlot(heatmap.data,
+             x = names(heatmap.data)[46:48], #these values may need to change based on 
+             y = names(heatmap.data)[1:45], #number of eigengenes
+             col = c("blue2", "skyblue", "white", "pink", "red")) 
