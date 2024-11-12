@@ -6,6 +6,7 @@ list.files("variants/")
 
 vcf <- read.vcfR("variants/Centaurea_filtered.vcf.gz")
 vcf
+
 head(vcf)
 
 dna <- ape::read.dna("reference/GCA_030169165.1_ASM3016916v1_genomic.fa.gz", format="fasta")
