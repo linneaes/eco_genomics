@@ -1,0 +1,9 @@
+new("snmfProject", snmfProject.file = "geno.snmfProject", projDir = "/gpfs1/home/l/e/lericsso/projects/eco_genomics/Cent_project/", 
+    snmfDir = "geno.snmf/", input.file = "geno.geno", runs = list(), 
+    K = c(4L, 4L, 4L, 4L, 4L, 4L, 4L, 4L, 4L, 4L), snmfClass.files = c("K4/run1/geno_r1.4.snmfClass", 
+    "K4/run2/geno_r2.4.snmfClass", "K4/run3/geno_r3.4.snmfClass", 
+    "K4/run4/geno_r4.4.snmfClass", "K4/run5/geno_r5.4.snmfClass", 
+    "K4/run6/geno_r6.4.snmfClass", "K4/run7/geno_r7.4.snmfClass", 
+    "K4/run8/geno_r8.4.snmfClass", "K4/run9/geno_r9.4.snmfClass", 
+    "K4/run10/geno_r10.4.snmfClass"), n = 593L, L = 3643L, creationTime = structure(1731621046.59177, class = c("POSIXct", 
+    "POSIXt")))
