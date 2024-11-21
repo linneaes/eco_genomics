@@ -1,6 +1,6 @@
 new("snmfClass", directory = "K1/run6/", snmfClass.file = "vcf_final.filtered.thinned_r6.1.snmfClass", 
-    K = 1L, run = 6L, CPU = 1L, seed = 1545413680L, alpha = 10, 
+    K = 1L, run = 6L, CPU = 1L, seed = 1688167981L, alpha = 10, 
     percentage = 0.05, I = 0L, iterations = 200L, entropy = TRUE, 
-    tolerance = 1e-05, crossEntropy = 0.291382069972569, ploidy = 2L, 
+    tolerance = 1e-05, crossEntropy = 0.291224112359994, ploidy = 2L, 
     Q.input.file = "", Q.output.file = "vcf_final.filtered.thinned_r6.1.Q", 
     G.output.file = "vcf_final.filtered.thinned_r6.1.G")
