@@ -11,7 +11,7 @@ library(LEA)
 
 options(bitmapType = "cairo")
 
-setwd("~/projects/eco_genomics/population_genomics/")
+setwd("~/")
 
 vcf <- read.vcfR("~/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered.vcf.gz")
 
@@ -22,7 +22,7 @@ vcf <- read.vcfR("~/projects/eco_genomics/population_genomics/outputs/vcf_final.
 
 geno_vcf <- read.vcfR("/users/l/e/lericsso/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered.vcf.gz")
 
-meta <- read.csv("/users/d/k/dkaupu/projects/eco_genomics/group_project/outputs/metafinal19.csv", row.names = "X")
+meta <- read.csv("/gpfs1/cl/pbio3990/GroupProjects/Cent_climadapt/metaA.csv", row.names = "X")
 
 dim(meta)
 
@@ -35,11 +35,11 @@ dim(meta2)
 #########
 
 genotype = LEA::read.geno("/users/l/e/lericsso/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered.geno")
-coordinates = as.matrix(read.table(meta2[,7:8]))
+#coordinates = as.matrix(read.table(meta2[,7:8]))
 latitude <- meta2$latitude
 longitude <- meta2$longitude
 
-plot(longitude, latitude, cex = .4, col = "darkblue",
+plot(longitude, latitude, cex = .4, col = as.factor(meta2$id),
      xlab = "Longitude", ylab = "Latitude",
      main = "coordinates", las = 1)
 maps::map(add = TRUE, interior = FALSE, col = "grey40")
@@ -113,7 +113,7 @@ pvalues = p$pvalues
 par(mfrow = c(2,1))
 hist(pvalues, col = "orange")
 plot(-log10(pvalues), pch = 19, col = "blue", cex = .5)
-
+dev.off()
 #######
 
 project.missing = snmf("/users/l/e/lericsso/projects/eco_genomics/Cent_project/geno.lfmm", K = 5,
@@ -124,7 +124,7 @@ project.missing = snmf("/users/l/e/lericsso/projects/eco_genomics/Cent_project/g
 best = which.min(cross.entropy(project.missing, K = 5))
 # Impute the missing genotypes
 impute(project.missing, "/users/l/e/lericsso/projects/eco_genomics/Cent_project/geno.lfmm",
-       method = 'mode', K = 5, run = best)
+       method = 'random', K = 5, run = best)
 ## Missing genotype imputation for K = 5
 ## Missing genotype imputation for run = 5
 ## Results are written in the file: /users/l/e/lericsso/projects/eco_genomics/Cent_project/geno.lfmm_imputed.lfmm
@@ -135,15 +135,22 @@ dat.imp = read.lfmm("/users/l/e/lericsso/projects/eco_genomics/Cent_project/geno
 ######
 # LFMM2 Analysis Mean Temp
 ######
+meta2 <- meta[meta$id %in% colnames(vcf@gt[, -1]),]
 
-Y <- dat.imp
+metaA <- which(meta$id %in% colnames(vcf@gt[, -1]))
+
+Y <- dat.imp[metaA,]
 X <- meta2$TempM
+
+Y <- which(Y==9,arr.ind=TRUE)
+
 
 mod.lfmm2 <- lfmm2(Y, X, K = 5)
 
 # Simulate non-null effect sizes for 10 target loci
 #individuals
-n = 593
+dim(meta2)
+n = 118
 #loci
 L = 3643
 

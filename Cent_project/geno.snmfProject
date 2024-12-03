@@ -5,5 +5,5 @@ new("snmfProject", snmfProject.file = "geno.snmfProject", projDir = "/gpfs1/home
     "K5/run4/geno_r4.5.snmfClass", "K5/run5/geno_r5.5.snmfClass", 
     "K5/run6/geno_r6.5.snmfClass", "K5/run7/geno_r7.5.snmfClass", 
     "K5/run8/geno_r8.5.snmfClass", "K5/run9/geno_r9.5.snmfClass", 
-    "K5/run10/geno_r10.5.snmfClass"), n = 593L, L = 3643L, creationTime = structure(1732219580.75005, class = c("POSIXct", 
+    "K5/run10/geno_r10.5.snmfClass"), n = 593L, L = 3643L, creationTime = structure(1733262460.92521, class = c("POSIXct", 
     "POSIXt")))
