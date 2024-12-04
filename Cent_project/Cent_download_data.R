@@ -11,7 +11,7 @@ library(LEA)
 
 options(bitmapType = "cairo")
 
-setwd("~/")
+setwd("/gpfs1/cl/pbio3990/GroupProjects/Cent_climadapt/")
 
 vcf <- read.vcfR("~/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered.vcf.gz")
 
@@ -48,10 +48,6 @@ maps::map(add = TRUE, interior = FALSE, col = "grey40")
 #climate data
 #######
 
-TempM <- meta2$TempM
-TempR <- meta2$TempR
-Prec <- meta2$Prec
-
 geno_lfmm <- geno2lfmm(input.file = "/users/l/e/lericsso/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered.geno", output.file = "/users/l/e/lericsso/projects/eco_genomics/Cent_project/geno.lfmm", force = TRUE)
 
 # All bioclim variables
@@ -65,6 +61,7 @@ TempM_env <- read.env("/users/l/e/lericsso/projects/eco_genomics/Cent_project/Te
 # 2. TempR
 write.env(meta2[,15], output.file = "/users/l/e/lericsso/projects/eco_genomics/Cent_project/TempR.env")
 TempR_env <- read.env("/users/l/e/lericsso/projects/eco_genomics/Cent_project/TempR.env")
+
 
 # 3. Prec
 write.env(meta2[,20], output.file = "/users/l/e/lericsso/projects/eco_genomics/Cent_project/Prec.env")
@@ -124,7 +121,7 @@ project.missing = snmf("/users/l/e/lericsso/projects/eco_genomics/Cent_project/g
 best = which.min(cross.entropy(project.missing, K = 5))
 # Impute the missing genotypes
 impute(project.missing, "/users/l/e/lericsso/projects/eco_genomics/Cent_project/geno.lfmm",
-       method = 'random', K = 5, run = best)
+       method = 'mode', K = 5, run = best)
 ## Missing genotype imputation for K = 5
 ## Missing genotype imputation for run = 5
 ## Results are written in the file: /users/l/e/lericsso/projects/eco_genomics/Cent_project/geno.lfmm_imputed.lfmm
@@ -142,7 +139,7 @@ metaA <- which(meta$id %in% colnames(vcf@gt[, -1]))
 Y <- dat.imp[metaA,]
 X <- meta2$TempM
 
-Y <- which(Y==9,arr.ind=TRUE)
+#Y <- which(Y==9,arr.ind=TRUE)
 
 
 mod.lfmm2 <- lfmm2(Y, X, K = 5)
