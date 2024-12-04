@@ -1,5 +1,5 @@
 new("snmfClass", directory = "K5/run2/", snmfClass.file = "geno_r2.5.snmfClass", 
-    K = 5L, run = 2L, CPU = 1L, seed = 914900708L, alpha = 10, 
+    K = 5L, run = 2L, CPU = 1L, seed = 523763513L, alpha = 10, 
     percentage = 0.05, I = 0L, iterations = 200L, entropy = TRUE, 
-    tolerance = 1e-05, crossEntropy = 0.272805917821318, ploidy = 2L, 
+    tolerance = 1e-05, crossEntropy = 0.266626495818245, ploidy = 2L, 
     Q.input.file = "", Q.output.file = "geno_r2.5.Q", G.output.file = "geno_r2.5.G")

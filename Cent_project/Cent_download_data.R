@@ -112,6 +112,11 @@ hist(pvalues, col = "orange")
 plot(-log10(pvalues), pch = 19, col = "blue", cex = .5)
 dev.off()
 #######
+#write geno.lfmm matrix with missing genotypes
+# dat <-  as.numeric("/users/l/e/lericsso/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered.geno")
+# dat[sample(1:length(dat), 100, replace=TRUE)] <- 9 
+# dat <- matrix(dat, nrow = 50, ncol = 400)
+# write.lfmm(dat, output.file = "/users/l/e/lericsso/projects/eco_genomics/Cent_project/genoM.lfmm")
 
 project.missing = snmf("/users/l/e/lericsso/projects/eco_genomics/Cent_project/geno.lfmm", K = 5,
                        entropy = TRUE, repetitions = 10,
@@ -120,14 +125,20 @@ project.missing = snmf("/users/l/e/lericsso/projects/eco_genomics/Cent_project/g
 # select the run with the lowest cross-entropy value
 best = which.min(cross.entropy(project.missing, K = 5))
 # Impute the missing genotypes
-impute(project.missing, "/users/l/e/lericsso/projects/eco_genomics/Cent_project/geno.lfmm",
+impute((project.missing), "/users/l/e/lericsso/projects/eco_genomics/Cent_project/geno.lfmm",
        method = 'mode', K = 5, run = best)
 ## Missing genotype imputation for K = 5
 ## Missing genotype imputation for run = 5
 ## Results are written in the file: /users/l/e/lericsso/projects/eco_genomics/Cent_project/geno.lfmm_imputed.lfmm
 # Proportion of correct imputation results
 dat.imp = read.lfmm("/users/l/e/lericsso/projects/eco_genomics/Cent_project/geno.lfmm_imputed.lfmm")
-#mean( tutorial.R[dat == 9] == dat.imp[dat == 9] )
+#mean("geno.lfmm"["geno.lfmm" == 9] == dat.imp["geno.lfmm_imputed.lfmm" == 9] )
+
+#trying to impute another way
+# library(purrr)
+# map_df(project.missing, ~ round(impute(., mean)))
+
+
 
 ######
 # LFMM2 Analysis Mean Temp
@@ -136,7 +147,7 @@ meta2 <- meta[meta$id %in% colnames(vcf@gt[, -1]),]
 
 metaA <- which(meta$id %in% colnames(vcf@gt[, -1]))
 
-Y <- dat.imp[metaA,]
+Y <- dat.imp#[metaA,]
 X <- meta2$TempM
 
 #Y <- which(Y==9,arr.ind=TRUE)

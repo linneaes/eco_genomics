@@ -46,9 +46,9 @@ manhattan(vcf.div.MHplot,
           chr="V2",
           bp="POS",
           p="Gst",
-          col=c("blue4","orange3"),
+          col=c("slateblue","goldenrod2"),
           logp=F,
-          ylab="Fst among regions",
+          ylab="Volatile production",
           suggestiveline = quantile(vcf.div.MHplot$Gst, 0.999))
 
 write.csv(vcf.div.MHplot, "~/projects/eco_genomics/population_genomics/outputs/Genetic_Diff_byRegion.csv",
