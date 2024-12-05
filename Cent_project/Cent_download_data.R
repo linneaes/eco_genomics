@@ -11,7 +11,7 @@ library(LEA)
 
 options(bitmapType = "cairo")
 
-setwd("/gpfs1/cl/pbio3990/GroupProjects/Cent_climadapt/")
+setwd("~/projects/eco_genomics/population_genomics/")
 
 vcf <- read.vcfR("~/projects/eco_genomics/population_genomics/outputs/vcf_final.filtered.vcf.gz")
 
@@ -138,7 +138,12 @@ dat.imp = read.lfmm("/users/l/e/lericsso/projects/eco_genomics/Cent_project/geno
 # library(purrr)
 # map_df(project.missing, ~ round(impute(., mean)))
 
+# dat.imp <- for(i in 1:ncol(dat.imp)){
+#   dat.imp[is.na(dat.imp[,i]), i] <- mean(dat.imp[,i], na.rm = TRUE)
+# }
 
+# library(zoo)
+# dat.imp <- na.aggregate(dat.imp) 
 
 ######
 # LFMM2 Analysis Mean Temp
@@ -155,10 +160,11 @@ X <- meta2$TempM
 
 mod.lfmm2 <- lfmm2(Y, X, K = 5)
 
+
 # Simulate non-null effect sizes for 10 target loci
 #individuals
 dim(meta2)
-n = 118
+n = 593
 #loci
 L = 3643
 
