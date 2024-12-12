@@ -95,8 +95,7 @@ cols <- brewer.pal(6, "Set3")
 cols
 pal <- colorRampPalette(cols)
 
-num_colors <- nlevels(meta2$region)
-meta2_colors <- colorRampPalette(num_colors)
+palette(brewer.pal(n = 6, name = "Set2"))
 
 ######
 p = snmf.pvalues(project,
@@ -174,8 +173,8 @@ abline(h = -log10(0.1/510), lty = 2, col = "orange")
 plot(mod.lfmm2@U, pch = 19,
      xlab = "Latent Factors",
      ylab = "Mean Temperature",
-     col = pal(as.factor(meta2$region)))
-legend("bottomleft", legend= levels(as.factor(meta2$region)), pch=16, col= pal(as.factor(meta2$region)))
+     col = as.factor(meta2$region))
+legend("bottomleft", legend= levels(as.factor(meta2$region)), pch=16, col= unique(as.factor(meta2$region)))
 
 # Simulate a matrix containing haploid genotypes
 Y <- tcrossprod(as.matrix(X), B) +
@@ -214,7 +213,7 @@ mod.lfmm2 <- lfmm2(Y, X, K = 5)
 dim(meta2)
 n = 118
 #loci
-L = 3643
+L = 11238
 
 # Environmental variable
 X = as.matrix(rnorm(n))
@@ -240,8 +239,8 @@ abline(h = -log10(0.1/510), lty = 2, col = "orange")
 plot(mod.lfmm2@U, pch = 19,
      xlab = "Latent Factors",
      ylab = "Temperature Range",
-     col = pal(as.factor(meta2$region)))
-legend("bottomleft", legend= levels(as.factor(meta2$region)), pch=16, col=pal(as.factor(meta2$region)))
+     col = as.factor(meta2$region))
+legend("bottomleft", legend= levels(as.factor(meta2$region)), pch=16, col=unique(as.factor(meta2$region)))
 
 # Simulate a matrix containing haploid genotypes
 Y <- tcrossprod(as.matrix(X), B) +
@@ -306,8 +305,8 @@ abline(h = -log10(0.1/510), lty = 2, col = "orange")
 plot(mod.lfmm2@U, pch = 19,
      xlab = "Latent Factors",
      ylab = "Precipitation",
-     col = pal(as.factor(meta2$region)))
-legend("bottomleft", legend= levels(as.factor(meta2$region)), pch=16, col=pal(as.factor(meta2$region)))
+     col = as.factor(meta2$region))
+legend("bottomleft", legend= levels(as.factor(meta2$region)), pch=16, col=unique(as.factor(meta2$region)))
 
 # Simulate a matrix containing haploid genotypes
 Y <- tcrossprod(as.matrix(X), B) +
@@ -372,8 +371,8 @@ abline(h = -log10(0.1/510), lty = 2, col = "orange")
 plot(mod.lfmm2@U, pch = 19,
      xlab = "Latent Factors",
      ylab = "Mean Diurnal Range",
-     col = pal(as.factor(meta2$region)))
-legend("bottomleft", legend= levels(as.factor(meta2$region)), pch=16, col=pal(as.factor(meta2$region)))
+     col = as.factor(meta2$region))
+legend("bottomleft", legend= levels(as.factor(meta2$region)), pch=16, col=unique(as.factor(meta2$region)))
 
 # Simulate a matrix containing haploid genotypes
 Y <- tcrossprod(as.matrix(X), B) +
@@ -438,8 +437,8 @@ abline(h = -log10(0.1/510), lty = 2, col = "orange")
 plot(mod.lfmm2@U, pch = 19,
      xlab = "Latent Factors",
      ylab = "Precipitation During Driest Month",
-     col = pal(as.factor(meta2$region)))
-legend("bottomleft", legend= levels(as.factor(meta2$region)), pch=16, col=pal(as.factor(meta2$region)))
+     col = as.factor(meta2$region))
+legend("bottomleft", legend= levels(as.factor(meta2$region)), pch=16, col=unique(as.factor(meta2$region)))
 
 # Simulate a matrix containing haploid genotypes
 Y <- tcrossprod(as.matrix(X), B) +
@@ -459,7 +458,7 @@ plot(-log10(pv$pvalues), col = "grey", cex = .6, pch = 19)
 points(target, -log10(pv$pvalues[target]), col = "red")
 
 ######
-# LFMM2 Analysis PrecDM
+# LFMM2 Analysis PrecWmQ
 ######
 
 Y <- dat.imp
@@ -504,8 +503,8 @@ abline(h = -log10(0.1/510), lty = 2, col = "orange")
 plot(mod.lfmm2@U, pch = 19,
      xlab = "Latent Factors",
      ylab = "Precipitation During Wettest Quarter",
-     col = pal(as.factor(meta2$region)))
-legend("bottomleft", legend= levels(as.factor(meta2$region)), pch=16, col=pal(as.factor(meta2$region)))
+     col = as.factor(meta2$region))
+legend("bottomleft", legend= levels(as.factor(meta2$region)), pch=16, col=unique(as.factor(meta2$region)))
 
 # Simulate a matrix containing haploid genotypes
 Y <- tcrossprod(as.matrix(X), B) +
