@@ -94,6 +94,10 @@ library(RColorBrewer)
 cols <- brewer.pal(6, "Set3")
 cols
 pal <- colorRampPalette(cols)
+
+num_colors <- nlevels(meta2$region)
+meta2_colors <- colorRampPalette(num_colors)
+
 ######
 p = snmf.pvalues(project,
                  entropy = TRUE,
@@ -127,9 +131,6 @@ dat.imp = read.lfmm("/users/l/e/lericsso/vcf_final.filtered_SRK2.lfmm_imputed.lf
 ######
 # LFMM2 Analysis Mean Temp
 ######
-meta2 <- meta[meta$id %in% colnames(vcf@gt[, -1]),]
-
-metaA <- which(meta$id %in% colnames(vcf@gt[, -1]))
 
 Y <- dat.imp
 dim(Y)
@@ -147,7 +148,7 @@ mod.lfmm2 <- lfmm2(Y, X, K = 5)
 dim(meta2)
 n = 118
 #loci
-L = 3643
+L = 11238
 
 # Environmental variable
 X = as.matrix(rnorm(n))
@@ -174,7 +175,7 @@ plot(mod.lfmm2@U, pch = 19,
      xlab = "Latent Factors",
      ylab = "Mean Temperature",
      col = pal(as.factor(meta2$region)))
-legend("bottomleft", legend= levels(as.factor(meta2$region)), pch=16, col=pal(as.factor(meta2$region)))
+legend("bottomleft", legend= levels(as.factor(meta2$region)), pch=16, col= pal(as.factor(meta2$region)))
 
 # Simulate a matrix containing haploid genotypes
 Y <- tcrossprod(as.matrix(X), B) +
@@ -503,7 +504,7 @@ abline(h = -log10(0.1/510), lty = 2, col = "orange")
 plot(mod.lfmm2@U, pch = 19,
      xlab = "Latent Factors",
      ylab = "Precipitation During Wettest Quarter",
-     col = pal((as.factor(meta2$region))))
+     col = pal(as.factor(meta2$region)))
 legend("bottomleft", legend= levels(as.factor(meta2$region)), pch=16, col=pal(as.factor(meta2$region)))
 
 # Simulate a matrix containing haploid genotypes
