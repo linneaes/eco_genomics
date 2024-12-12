@@ -95,9 +95,7 @@ cols <- brewer.pal(6, "Set3")
 cols
 pal <- colorRampPalette(cols)
 
-cc <- palette()
-palette(c(cc,"cornflowerblue","olivedrab3"))
-palette()
+palette("default")
 ######
 p = snmf.pvalues(project,
                  entropy = TRUE,
@@ -503,7 +501,7 @@ abline(h = -log10(0.1/510), lty = 2, col = "orange")
 # showing the K = 5 estimated factors
 plot(mod.lfmm2@U, pch = 19,
      xlab = "Latent Factors",
-     ylab = "Precipitation During Wettest Quarter",
+     ylab = "Mean Precipitation During Warmest Quarter",
      col = pal(as.factor(meta2$region)))
 legend("bottomleft", legend= levels(as.factor(meta2$region)), pch=16, col=pal(as.factor(meta2$region)))
 
